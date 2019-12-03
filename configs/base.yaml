@@ -1,0 +1,17 @@
+num_epoch: 3000000 # Begin training. 3000000 10000
+valid_freq: 10000
+
+dataset:
+    dataset_name: wiki_corpus # wiki_corpus
+    path: dataset/wiki_corpus/info.yaml
+    num_skips: 2 # How many times to reuse an input to generate a label. batch_size % num_skips == 0
+    skip_window: 1 # How many words to consider left and right. num_skips <= 2 * skip_window
+    batch_size: 128 #
+
+    valid_size: 16 # Random set of words to evaluate similarity on.
+    valid_window: 100 # Only pick dev samples in the head of the distribution.
+model:
+    name: SkipGram
+    checkpoint_dir: ./_checkpoint
+    embedding_size: 128 # Dimension of the embedding vector.
+    num_sampled: 64 # Number of negative examples to sample.

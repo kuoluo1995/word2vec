@@ -24,7 +24,7 @@ Word2vec 正是来源于这个思想，但它的最终目的，不是要把 f �
  ```yaml
  # environment.yaml
 Python Environment: 3.6
-tensorflow-gpu: 1.12
+tensorflow: 1.12
 jieba
 matplotlib
 numpy

@@ -7,27 +7,25 @@ from utils import yaml_utils
 
 def generate_batch(data_path, batch_size, num_skips, skip_window, **args):
     data = yaml_utils.read(data_path)
-    data_index = 0
     batch = np.ndarray(shape=batch_size, dtype=np.int32)
     labels = np.ndarray(shape=(batch_size, 1), dtype=np.int32)
     span = 2 * skip_window + 1  # [ skip_window target skip_window ]
     buffer = collections.deque(maxlen=span)
-    for _ in range(span):
-        buffer.append(data[data_index])
-        data_index = (data_index + 1) % len(data)
+    buffer.extend(data[0:span])
+    data_index = span  # init buffer and data_index
     while True:
         for i in range(batch_size // num_skips):
-            target = skip_window
-            targets_to_avoid = [skip_window]
-            for j in range(num_skips):
-                while target in targets_to_avoid:
-                    target = random.randint(0, span - 1)
-                targets_to_avoid.append(target)
+            context_words = [w for w in range(span) if w != skip_window]
+            words_to_use = random.sample(context_words, num_skips)
+            for j, context_word in enumerate(words_to_use):
                 batch[i * num_skips + j] = buffer[skip_window]
-                labels[i * num_skips + j, 0] = buffer[target]
-
-            buffer.append(data[data_index])
-            data_index = (data_index + 1) % len(data)
+                labels[i * num_skips + j, 0] = buffer[context_word]
+            if data_index == len(data):
+                buffer.extend(data[0:span])
+                data_index = span
+            else:
+                buffer.append(data[data_index])
+                data_index = (data_index + 1) % len(data)
         yield batch, labels
 
 

@@ -2,7 +2,7 @@ from utils import yaml_utils
 
 
 def get_config(name):
-    base_config = yaml_utils.read('configs/base.yaml')
+    base_config = yaml_utils.read('configs/chinese.yaml')
     config_ = dict_update(base_config, yaml_utils.read('configs/' + name + '.yaml'))
     return config_
 

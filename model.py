@@ -67,7 +67,7 @@ class SkipGram:
                                num_sampled=self.num_sampled, num_classes=self.vocabulary_size))
         loss_summary = tf.summary.scalar('loss', self.loss)
         self.scalar_summary = tf.summary.merge([loss_summary])
-        # Compute the cosine similarity between minibatch examples and all embeddings.
+        # Compute the cosine similarity between minibatch examples and all embeddings. L2
         norm = tf.sqrt(tf.reduce_sum(tf.square(self.embeddings), 1, keep_dims=True))
         self.normalized_embeddings = self.embeddings / norm
         valid_embeddings = tf.nn.embedding_lookup(self.normalized_embeddings, valid_dataset)

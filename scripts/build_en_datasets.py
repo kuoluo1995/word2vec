@@ -45,10 +45,8 @@ def build_dataset(words):
     data = list()
     unk_count = 0
     for word in words:
-        if word in dictionary:
-            index = dictionary[word]
-        else:
-            index = 0  # dictionary['UNK']
+        index = dictionary.get(word, 0)  # dictionary['UNK']
+        if index == 0:
             unk_count += 1
         data.append(index)
     count[0] = ('UNK', unk_count)

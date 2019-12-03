@@ -13,6 +13,6 @@ def train(args):
 
 
 if __name__ == '__main__':
-    config = get_config('base')
+    config = get_config('english')
     config['tag'] = 'base'
     train(config)

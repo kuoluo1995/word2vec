@@ -25,7 +25,7 @@ def visualization_result(final_embeddings_path, reverse_dictionary_path, output_
 
 
 if __name__ == '__main__':
-    dataset_name = 'wiki_corpus'
+    dataset_name = 'text8'
     model_name = 'SkipGram'
     tag = 'base'
     dataset_info = yaml_utils.read('dataset/' + dataset_name + '/info.yaml')

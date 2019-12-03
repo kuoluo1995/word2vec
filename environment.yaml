@@ -1,4 +1,9 @@
-numpy
-tensorflow-gpu
+Python Environment: 3.6
+tensorflow-gpu: 1.12
 jieba
-PyYaml
+matplotlib
+numpy
+pathlib
+pyyaml
+scikit-learn
+

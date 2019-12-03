@@ -1,11 +1,9 @@
 import collections
-import jieba
 from pathlib import Path
-
 from utils import yaml_utils
 
 vocabulary_size = 5000
-dataset_name = 'wiki_corpus'  # wiki_corpus
+dataset_name = 'text8'  # wiki_corpus
 output_dir = Path('../dataset').absolute()
 
 
@@ -18,17 +16,15 @@ def read_data(path):
         while line:
             line = f.readline()
             total += 1
-            print('\r 当前第{}行'.format(total), end='')
+            print('\r当前第{}行'.format(total), end='')
     with data_path.open(mode='r', encoding='UTF-8') as f:
         line = f.readline()
         i = 1
         while line:
             while '\n' in line:
                 line = line.replace('\n', '')
-            while ' ' in line:
-                line = line.replace(' ', '')
             if len(line) > 0:
-                raw_words = list(jieba.cut(line, cut_all=False))
+                raw_words = list(line.split())
                 raw_word_list.extend(raw_words)
             print('\r >>当前读取到{}/{}行'.format(i, total), end='')
             line = f.readline()
@@ -49,10 +45,8 @@ def build_dataset(words):
     data = list()
     unk_count = 0
     for word in words:
-        if word in dictionary:
-            index = dictionary[word]
-        else:
-            index = 0  # dictionary['UNK']
+        index = dictionary.get(word, 0)  # dictionary['UNK']
+        if index == 0:
             unk_count += 1
         data.append(index)
     count[0] = ('UNK', unk_count)
@@ -61,7 +55,6 @@ def build_dataset(words):
     output_path = output_dir / dataset_name
     print('导出文件')
     yaml_utils.write(output_path / 'data.yaml', data)
-    yaml_utils.write(output_path / 'dictionary.yaml', dictionary)
     yaml_utils.write(output_path / 'reverse_dictionary.yaml', reverse_dictionary)
     with (output_path / 'dictionary.tsv').open(mode='w', encoding='UTF-8') as file:
         for i in range(vocabulary_size):

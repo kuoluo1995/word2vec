@@ -58,4 +58,4 @@ if __name__ == '__main__':
     # visualization_result(checkpoint_dir + 'final_embeddings.yaml', dataset_info['reverse_dictionary'],
     #                      checkpoint_dir + 'tsne.png', 100)
 
-    most_similar(checkpoint_dir + 'final_embeddings.yaml', dataset_info['reverse_dictionary'], [20])
+    most_similar(checkpoint_dir + 'final_embeddings.yaml', dataset_info['reverse_dictionary'], [62])
